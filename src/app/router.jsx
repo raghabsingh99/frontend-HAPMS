@@ -10,87 +10,103 @@ import Appointmentpage from '../pages/appointments/Appointmentpage';
 import UnauthorizedPage from '../pages/UnauthorizedPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
+function ProtectedRoute({ children }) {
+  const { isAuthenticated } = useAuth();
 
-function ProtectedRoute({children}){
-    const { isAuthenticated} = useAuth();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if(!isAuthenticated){
-        return <Navigate to ="/login" replace />
-
-    }
-    return children;
+  return children;
 }
 
-function RoleRouter({children, allowedRoles}){
-    const { user} = useAuth();
+function RoleRouter({ children, allowedRoles }) {
+  const { user } = useAuth();
 
-    if(!user){
-         return <Navigate to ="/login" replace />;
-    }
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-    if(!allowedRoles.includes(user.role)){
-         return <Navigate to ="/unauthorized" replace />;
-    }
-    return children;
+  if (!allowedRoles.includes(user.role)) {
+    return <Navigate to="/unauthorized" replace />;
+  }
+
+  return children;
+}
+
+function DashboardRedirect() {
+  const { user } = useAuth();
+
+  if (user?.role === "ADMIN") {
+    return <Navigate to="/dashboard" replace />;
+  }
+
+  if (user?.role === "DOCTOR") {
+    return <Navigate to="/doctor-dashboard" replace />;
+  }
+
+  return <Navigate to="/login" replace />;
 }
 
 const router = createBrowserRouter([
-    {
-        path: "/login",
-        element: <LoginPage/>
-    },
-    {
-        path: "/",
+  {
+    path: "/login",
+    element: <LoginPage />
+  },
+  {
+    path: "/",
+    element: (
+      <ProtectedRoute>
+        <DashboardLayout />
+      </ProtectedRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: <DashboardRedirect />
+      },
+      {
+        path: "dashboard",
         element: (
-            <ProtectedRoute>
-                <DashboardLayout />
-            </ProtectedRoute>
+          <RoleRouter allowedRoles={["ADMIN"]}>
+            <AdminDashboardPage />
+          </RoleRouter>
         ),
-        children: [
-            {
-                path: "dashboard",
-                element: (
-                    <RoleRouter allowedRoles={["ADMIN"]}>
-                        <AdminDashboardPage />
-                    </RoleRouter>
-                ),
-            },
-            {
-                path: "doctor-dashboard",
-                element: (
-                    <RoleRouter allowedRoles={["DOCTOR"]}>
-                        <DoctorDashboardPage />
-                    </RoleRouter>
-                ),
-            },
-            {
-                path: "patients",
-                element:(
-                    <RoleRouter allowedRoles={["ADMIN","DOCTOR"]}>
-                        <PatientPage />
-                    </RoleRouter>
-                ),
-            },
-            {
-                path: "appointments",
-                element: (
-                    <RoleRouter allowedRoles={["ADMIN","DOCTOR"]}>
-                        <Appointmentpage />
-                    </RoleRouter>
-                ),
-            },
-        ],
-    },
-    {
-        path: "/unauthorized",
-        element: <UnauthorizedPage />
-    },
-    {
-        path: "*",
-        element: <NotFoundPage />
-    },
+      },
+      {
+        path: "doctor-dashboard",
+        element: (
+          <RoleRouter allowedRoles={["DOCTOR"]}>
+            <DoctorDashboardPage />
+          </RoleRouter>
+        ),
+      },
+      {
+        path: "patients",
+        element: (
+          <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
+            <PatientPage />
+          </RoleRouter>
+        ),
+      },
+      {
+        path: "appointments",
+        element: (
+          <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
+            <Appointmentpage />
+          </RoleRouter>
+        ),
+      },
+    ],
+  },
+  {
+    path: "/unauthorized",
+    element: <UnauthorizedPage />
+  },
+  {
+    path: "*",
+    element: <NotFoundPage />
+  },
 ]);
 
- 
-
-export default router
+export default router;

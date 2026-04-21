@@ -19,19 +19,26 @@ function Sidebar() {
   const menu = user?.role === "ADMIN" ? adminMenu : doctorMenu;
 
   return (
-    <aside className="w-64 bg-blue-700 text-white p-4">
-      <h1 className="text-red-5000 text-5xl font-bold">HAPMS</h1>
+    <aside className="m-4 flex w-72 flex-col rounded-[28px] border border-white/10 bg-[#121a30]/95 p-5 shadow-[0_25px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+      <div className="mb-8">
+        <h1 className="text-2xl font-bold tracking-wide text-white">
+          HAPMS
+        </h1>
+        <p className="mt-1 text-sm text-slate-400">
+          Hospital Dashboard
+        </p>
+      </div>
 
-      <nav className="flex flex-col gap-2">
+      <nav className="flex flex-1 flex-col gap-2">
         {menu.map((item) => (
           <NavLink
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `rounded-md px-3 py-2 transition ${
+              `rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
                 isActive
-                  ? "bg-white text-blue-700 font-semibold"
-                  : "hover:bg-blue-600"
+                  ? "bg-gradient-to-r from-blue-600/90 to-indigo-500/90 text-white shadow-lg shadow-blue-900/30"
+                  : "text-slate-300 hover:bg-white/6 hover:text-white"
               }`
             }
           >
@@ -41,8 +48,8 @@ function Sidebar() {
       </nav>
 
       <button
-        className="mt-10 w-full rounded-md bg-red-500 px-3 py-2 hover:bg-red-600"
         type="button"
+        className="mt-6 rounded-2xl border border-red-400/20 bg-red-500/15 px-4 py-3 text-sm font-semibold text-red-300 transition hover:bg-red-500/25"
       >
         Logout
       </button>
