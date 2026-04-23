@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Card from "../../component/ui/Card";
 
 function getStatusClass(status) {
@@ -13,7 +14,19 @@ function formatDateTime(value) {
   return new Date(value).toLocaleString();
 }
 
-function AppointmentTable({ appointments }) {
+function AppointmentTable({ appointments, onUpdateStatus, updatingId }) {
+   const [selectedStatuses, setSelectedStatuses] = useState({});
+   function handleStatusChange(appointmentId, value) {
+    setSelectedStatuses((prev) => ({
+      ...prev,
+      [appointmentId]: value,
+    }));
+  }
+
+   function getNextStatus(appointment) {
+    return selectedStatuses[appointment.id] || "COMPLETED";
+  }
+
   return (
     <Card>
       <div className="mb-5 flex items-center justify-between">
@@ -39,6 +52,7 @@ function AppointmentTable({ appointments }) {
               <th className="pb-2 font-medium">Doctor ID</th>
               <th className="pb-2 font-medium">Patient ID</th>
               <th className="pb-2 font-medium">Status</th>
+               <th className="pb-2 font-medium">Actions</th>
             </tr>
           </thead>
 
@@ -69,6 +83,40 @@ function AppointmentTable({ appointments }) {
                     {appointment.status}
                   </span>
                 </td>
+              <td className="rounded-r-2xl px-3 py-4">
+                  {appointment.status === "BOOKED" ? (
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={getNextStatus(appointment)}
+                        onChange={(e) =>
+                          handleStatusChange(appointment.id, e.target.value)
+                        }
+                        className="rounded-xl border border-white/10 bg-[#1b2340] px-3 py-2 text-sm text-white outline-none focus:border-blue-400/60"
+                      >
+                        <option value="COMPLETED">COMPLETED</option>
+                        <option value="CANCELED">CANCELED</option>
+                      </select>
+
+                      <button
+                        type="button"
+                        disabled={updatingId === appointment.id}
+                        onClick={() =>
+                          onUpdateStatus(
+                            appointment.id,
+                            getNextStatus(appointment)
+                          )
+                        }
+                        className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-500 px-4 py-2 text-sm font-medium text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+                      >
+                        {updatingId === appointment.id ? "Updating..." : "Update"}
+                      </button>
+                    </div>
+                  ) : (
+                    <span className="text-xs text-slate-500">
+                      No action available
+                    </span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -79,4 +127,3 @@ function AppointmentTable({ appointments }) {
 }
 
 export default AppointmentTable;
-

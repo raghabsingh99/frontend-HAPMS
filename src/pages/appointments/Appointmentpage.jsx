@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import PageHeader from "../../component/common/PageHeader";
 import Card from "../../component/ui/Card";
 import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
-import { searchAppointments } from "../../features/appointments/api";
+import { searchAppointments, updateAppointmentStatus, } from "../../features/appointments/api";
 import AppointmentTable from "../../features/appointments/AppointmentTable";
 import AppointmentFilterForm from "../../component/AppointmentFilterForm";
 
@@ -12,6 +12,8 @@ function AppointmentsPage() {
   const [appointments, setAppointments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+   const [updatingId, setUpdatingId] = useState(null);
+  const [currentFilters, setCurrentFilters] = useState({});
 
   async function fetchAppointments(payload = {}) {
     try {
@@ -38,6 +40,21 @@ function AppointmentsPage() {
 
   async function handleReset() {
     await fetchAppointments({});
+  }
+
+   async function handleUpdateStatus(appointmentId, status) {
+    try {
+      setUpdatingId(appointmentId);
+      setError("");
+
+      await updateAppointmentStatus(axiosPrivate, appointmentId, status);
+      await fetchAppointments(currentFilters);
+    } catch (err) {
+      console.error("Failed to update appointment status:", err);
+      setError("Failed to update appointment status.");
+    } finally {
+      setUpdatingId(null);
+    }
   }
 
   if (loading && appointments.length === 0) {
@@ -73,7 +90,11 @@ function AppointmentsPage() {
         </Card>
       ) : null}
 
-      <AppointmentTable appointments={appointments} />
+     <AppointmentTable
+        appointments={appointments}
+        onUpdateStatus={handleUpdateStatus}
+        updatingId={updatingId}
+      />
     </div>
   );
 }
