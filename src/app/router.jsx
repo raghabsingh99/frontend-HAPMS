@@ -9,6 +9,10 @@ import PatientPage from '../pages/patients/PatientPage';
 import Appointmentpage from '../pages/appointments/Appointmentpage';
 import UnauthorizedPage from '../pages/UnauthorizedPage';
 import NotFoundPage from '../pages/NotFoundPage';
+import DoctorSlotsPage from '../features/slots/DoctorSlotsPage';
+import ScheduleGeneratorPage from '../features/slots/ScheduleGeneratorPage';
+import BookAppointmentPage from "../pages/appointments/BookAppointmentPage";
+ 
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -97,6 +101,30 @@ const router = createBrowserRouter([
           </RoleRouter>
         ),
       },
+      {
+        path: "slots",
+        element: (
+          <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
+            <DoctorSlotsPage />
+          </RoleRouter>
+        ),
+      },
+      {
+        path: "schedule-generator",
+        element: (
+          <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
+            <ScheduleGeneratorPage />
+          </RoleRouter>
+        ),
+        },
+        {
+          path: "appointments/book",
+          element: (
+            <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
+              <BookAppointmentPage />
+            </RoleRouter>
+          ),
+        },
     ],
   },
   {

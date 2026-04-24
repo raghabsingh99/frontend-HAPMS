@@ -9,3 +9,11 @@ export async function updateAppointmentStatus(apiClient, appointmentId, status) 
   });
   return response.data;
 }
+
+export async function bookAppointment(apiClient, payload) {
+  console.log("Booking payload:", payload);
+
+  const response = await apiClient.post("/appointment", payload);
+
+  return response.data;
+}

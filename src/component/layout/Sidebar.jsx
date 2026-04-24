@@ -8,12 +8,20 @@ function Sidebar() {
     { label: "Dashboard", path: "/dashboard" },
     { label: "Patients", path: "/patients" },
     { label: "Appointments", path: "/appointments" },
+     { label: "Doctor Slots", path: "/slots" },
+      { label: "Schedule Generator", path: "/schedule-generator" },
+        { label: "Book Appointment", path: "/appointments/book" },
+       
   ];
 
   const doctorMenu = [
     { label: "Dashboard", path: "/doctor-dashboard" },
     { label: "Patients", path: "/patients" },
     { label: "Appointments", path: "/appointments" },
+    { label: "Doctor Slots", path: "/slots" },
+    { label: "Schedule Generator", path: "/schedule-generator" },
+      { label: "Book Appointment", path: "/appointments/book" },
+    
   ];
 
   const menu = user?.role === "ADMIN" ? adminMenu : doctorMenu;
