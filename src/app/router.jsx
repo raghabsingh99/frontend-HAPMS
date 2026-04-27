@@ -12,6 +12,7 @@ import NotFoundPage from '../pages/NotFoundPage';
 import DoctorSlotsPage from '../features/slots/DoctorSlotsPage';
 import ScheduleGeneratorPage from '../features/slots/ScheduleGeneratorPage';
 import BookAppointmentPage from "../pages/appointments/BookAppointmentPage";
+import LabReportsPage from '../pages/labReports/LabReportsPage';
  
 
 function ProtectedRoute({ children }) {
@@ -125,6 +126,14 @@ const router = createBrowserRouter([
             </RoleRouter>
           ),
         },
+        {
+        path: "lab-reports",
+        element: (
+          <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
+            <LabReportsPage />
+          </RoleRouter>
+        ),
+      },
     ],
   },
   {

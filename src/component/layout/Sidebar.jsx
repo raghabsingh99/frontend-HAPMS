@@ -11,6 +11,7 @@ function Sidebar() {
      { label: "Doctor Slots", path: "/slots" },
       { label: "Schedule Generator", path: "/schedule-generator" },
         { label: "Book Appointment", path: "/appointments/book" },
+        { label: "Lab Reports", path: "/lab-reports" },
        
   ];
 
@@ -21,6 +22,7 @@ function Sidebar() {
     { label: "Doctor Slots", path: "/slots" },
     { label: "Schedule Generator", path: "/schedule-generator" },
       { label: "Book Appointment", path: "/appointments/book" },
+      { label: "Lab Reports", path: "/lab-reports" },
     
   ];
 
