@@ -12,6 +12,7 @@ function Sidebar() {
       { label: "Schedule Generator", path: "/schedule-generator" },
         { label: "Book Appointment", path: "/appointments/book" },
         { label: "Lab Reports", path: "/lab-reports" },
+        { label: "Prescriptions", path: "/prescriptions" },
        
   ];
 
@@ -23,6 +24,7 @@ function Sidebar() {
     { label: "Schedule Generator", path: "/schedule-generator" },
       { label: "Book Appointment", path: "/appointments/book" },
       { label: "Lab Reports", path: "/lab-reports" },
+      { label: "Prescriptions", path: "/prescriptions" },
     
   ];
 

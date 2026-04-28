@@ -13,6 +13,8 @@ import DoctorSlotsPage from '../features/slots/DoctorSlotsPage';
 import ScheduleGeneratorPage from '../features/slots/ScheduleGeneratorPage';
 import BookAppointmentPage from "../pages/appointments/BookAppointmentPage";
 import LabReportsPage from '../pages/labReports/LabReportsPage';
+import PrescriptionsPage from '../pages/prescriptions/PrescriptionsPage';
+import PatientDetailPage from '../features/patients/PatientDetailPage';
  
 
 function ProtectedRoute({ children }) {
@@ -134,6 +136,22 @@ const router = createBrowserRouter([
           </RoleRouter>
         ),
       },
+      {
+      path: "prescriptions",
+      element: (
+      <RoleRouter allowedRoles={["ADMIN"]}>
+        <PrescriptionsPage />
+      </RoleRouter>
+      ),
+      },
+      {
+      path: "patients/:id",
+      element: (
+        <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
+          <PatientDetailPage />
+        </RoleRouter>
+      ),
+    },
     ],
   },
   {

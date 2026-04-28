@@ -1,4 +1,5 @@
 import Card from "../../component/ui/Card";
+import { Link } from "react-router-dom";
 
 function PatientTable({ patients }) {
   return (
@@ -25,6 +26,7 @@ function PatientTable({ patients }) {
               <th className="pb-2 font-medium">Age</th>
               <th className="pb-2 font-medium">Email</th>
               <th className="pb-2 font-medium">Phone</th>
+              <th className="pb-2 font-medium">Actions</th>
             </tr>
           </thead>
 
@@ -49,6 +51,14 @@ function PatientTable({ patients }) {
                 <td className="rounded-r-2xl px-3 py-4 text-sm text-slate-300">
                   {patient.phone || "-"}
                 </td>
+                <td className="rounded-r-2xl px-3 py-4">
+                <Link
+                  to={`/patients/${patient.id}`}
+                  className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-500 px-4 py-2 text-sm font-medium text-white transition hover:opacity-95"
+                >
+                  View
+                </Link>
+              </td>
               </tr>
             ))}
           </tbody>
