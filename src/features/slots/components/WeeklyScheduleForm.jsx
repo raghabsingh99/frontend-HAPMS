@@ -21,6 +21,9 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
     weeksAhead: "",
   });
 
+  const inputClass =
+    "w-full rounded-2xl border border-[#e7e2d6] bg-[#fbfaf6] px-4 py-3 text-[#1f2933] outline-none transition placeholder:text-[#9ca3af] focus:border-[#2f6b3f]";
+
   function handleChange(e) {
     const { name, value } = e.target;
 
@@ -59,8 +62,10 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
   return (
     <Card>
       <div className="mb-5">
-        <h3 className="text-lg font-semibold text-white">Generate Weekly Schedule</h3>
-        <p className="mt-1 text-sm text-slate-400">
+        <h3 className="text-lg font-bold text-[#1f2933]">
+          Generate Weekly Schedule
+        </h3>
+        <p className="mt-1 text-sm text-[#6b7280]">
           Create recurring available slots for a doctor in bulk
         </p>
       </div>
@@ -68,7 +73,7 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               Doctor ID
             </label>
             <input
@@ -77,13 +82,13 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
               value={form.doctorId}
               onChange={handleChange}
               placeholder="Enter doctor ID"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
               required
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               Start Time
             </label>
             <input
@@ -91,13 +96,13 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
               name="startTime"
               value={form.startTime}
               onChange={handleChange}
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
               required
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               End Time
             </label>
             <input
@@ -105,13 +110,13 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
               name="endTime"
               value={form.endTime}
               onChange={handleChange}
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
               required
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               Slot Minutes
             </label>
             <input
@@ -120,13 +125,13 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
               value={form.slotMinutes}
               onChange={handleChange}
               placeholder="e.g. 30"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
               required
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               Weeks Ahead
             </label>
             <input
@@ -135,14 +140,14 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
               value={form.weeksAhead}
               onChange={handleChange}
               placeholder="e.g. 2"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
               required
             />
           </div>
         </div>
 
         <div>
-          <label className="mb-3 block text-sm font-medium text-slate-300">
+          <label className="mb-3 block text-sm font-semibold text-[#374151]">
             Working Days
           </label>
 
@@ -153,10 +158,10 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
               return (
                 <label
                   key={day}
-                  className={`flex cursor-pointer items-center justify-center rounded-2xl border px-4 py-3 text-sm font-medium transition ${
+                  className={`flex cursor-pointer items-center justify-center rounded-2xl border px-4 py-3 text-sm font-semibold transition ${
                     checked
-                      ? "border-blue-400/50 bg-blue-500/15 text-blue-300"
-                      : "border-white/10 bg-white/6 text-slate-300 hover:bg-white/10"
+                      ? "border-[#2f6b3f] bg-[#e8f3df] text-[#2f6b3f]"
+                      : "border-[#e7e2d6] bg-[#fbfaf6] text-[#374151] hover:bg-[#f5f3ec]"
                   }`}
                 >
                   <input
@@ -176,7 +181,7 @@ function WeeklyScheduleForm({ onSubmit, loading }) {
           <button
             type="submit"
             disabled={loading}
-            className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-500 px-5 py-3 font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-2xl bg-[#17351f] px-5 py-3 font-semibold text-white shadow-[0_8px_20px_rgba(23,53,31,0.18)] transition hover:bg-[#224b2c] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Generating..." : "Generate Schedule"}
           </button>

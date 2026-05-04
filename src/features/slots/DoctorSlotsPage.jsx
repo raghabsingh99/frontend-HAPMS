@@ -5,7 +5,7 @@ import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
 import { createSlot, getAvailableSlots } from "../../features/slots/api";
 import SlotForm from "./components/SlotForm";
 import SlotTable from "./components/SlotTable";
-
+ 
 function DoctorSlotsPage() {
   const axiosPrivate = useAxiosPrivate();
 
@@ -14,6 +14,9 @@ function DoctorSlotsPage() {
   const [creating, setCreating] = useState(false);
   const [loadingSlots, setLoadingSlots] = useState(false);
   const [error, setError] = useState("");
+
+  const inputClass =
+    "w-full rounded-2xl border border-[#e7e2d6] bg-[#fbfaf6] px-4 py-3 text-[#1f2933] outline-none transition placeholder:text-[#9ca3af] focus:border-[#2f6b3f]";
 
   async function handleCreateSlot(formData) {
     try {
@@ -63,7 +66,7 @@ function DoctorSlotsPage() {
 
       {error ? (
         <Card>
-          <p className="text-red-300">{error}</p>
+          <p className="font-medium text-[#dc2626]">{error}</p>
         </Card>
       ) : null}
 
@@ -71,15 +74,17 @@ function DoctorSlotsPage() {
 
       <Card>
         <div className="mb-5">
-          <h3 className="text-lg font-semibold text-white">Load Available Slots</h3>
-          <p className="mt-1 text-sm text-slate-400">
+          <h3 className="text-lg font-bold text-[#1f2933]">
+            Load Available Slots
+          </h3>
+          <p className="mt-1 text-sm text-[#6b7280]">
             Enter a doctor ID to view current available slots
           </p>
         </div>
 
         <div className="flex flex-col gap-4 md:flex-row md:items-end">
           <div className="w-full md:max-w-xs">
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               Doctor ID
             </label>
             <input
@@ -87,7 +92,7 @@ function DoctorSlotsPage() {
               value={doctorId}
               onChange={(e) => setDoctorId(e.target.value)}
               placeholder="Enter doctor ID"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
             />
           </div>
 
@@ -95,7 +100,7 @@ function DoctorSlotsPage() {
             type="button"
             onClick={handleLoadSlots}
             disabled={loadingSlots}
-            className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-500 px-5 py-3 font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+            className="rounded-2xl bg-[#17351f] px-5 py-3 font-semibold text-white shadow-[0_8px_20px_rgba(23,53,31,0.18)] transition hover:bg-[#224b2c] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loadingSlots ? "Loading..." : "Load Slots"}
           </button>

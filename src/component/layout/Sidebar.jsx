@@ -1,43 +1,58 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
+import { logoutUser } from "../../features/auth/api";
 
 function Sidebar() {
-  const { user } = useAuth();
+  const navigate = useNavigate();
+  const axiosPrivate = useAxiosPrivate();
+  const { user, logout, refreshToken } = useAuth();
 
   const adminMenu = [
     { label: "Dashboard", path: "/dashboard" },
     { label: "Patients", path: "/patients" },
     { label: "Appointments", path: "/appointments" },
-     { label: "Doctor Slots", path: "/slots" },
-      { label: "Schedule Generator", path: "/schedule-generator" },
-        { label: "Book Appointment", path: "/appointments/book" },
-        { label: "Lab Reports", path: "/lab-reports" },
-        { label: "Prescriptions", path: "/prescriptions" },
-       
+    { label: "Book Appointment", path: "/appointments/book" },
+    { label: "Doctor Slots", path: "/slots" },
+    { label: "Schedule Generator", path: "/schedule-generator" },
+    { label: "Lab Reports", path: "/lab-reports" },
+    { label: "Reports", path: "/reports" },
   ];
 
   const doctorMenu = [
     { label: "Dashboard", path: "/doctor-dashboard" },
     { label: "Patients", path: "/patients" },
     { label: "Appointments", path: "/appointments" },
+    { label: "Book Appointment", path: "/appointments/book" },
     { label: "Doctor Slots", path: "/slots" },
     { label: "Schedule Generator", path: "/schedule-generator" },
-      { label: "Book Appointment", path: "/appointments/book" },
-      { label: "Lab Reports", path: "/lab-reports" },
-      { label: "Prescriptions", path: "/prescriptions" },
-    
+    { label: "Lab Reports", path: "/lab-reports" },
+    { label: "Prescriptions", path: "/prescriptions" },
   ];
 
   const menu = user?.role === "ADMIN" ? adminMenu : doctorMenu;
 
+  async function handleLogout() {
+    try {
+      if (refreshToken) {
+        await logoutUser(axiosPrivate, refreshToken);
+      }
+    } catch (err) {
+      console.error("Logout API failed:", err);
+    } finally {
+      logout();
+      navigate("/login", { replace: true });
+    }
+  }
+
   return (
-    <aside className="m-4 flex w-72 flex-col rounded-[28px] border border-white/10 bg-[#121a30]/95 p-5 shadow-[0_25px_70px_rgba(0,0,0,0.35)] backdrop-blur-xl">
+    <aside className="m-4 flex w-72 flex-col rounded-[28px] bg-[#17351f] p-5 text-white shadow-[0_18px_40px_rgba(23,53,31,0.25)]">
       <div className="mb-8">
         <h1 className="text-2xl font-bold tracking-wide text-white">
           HAPMS
         </h1>
-        <p className="mt-1 text-sm text-slate-400">
-          Hospital Dashboard
+        <p className="mt-1 text-sm text-[#b9c9b6]">
+          Healthcare Dashboard
         </p>
       </div>
 
@@ -47,10 +62,10 @@ function Sidebar() {
             key={item.path}
             to={item.path}
             className={({ isActive }) =>
-              `rounded-2xl px-4 py-3 text-sm font-medium transition-all duration-200 ${
+              `rounded-2xl px-4 py-3 text-sm font-semibold transition-all duration-200 ${
                 isActive
-                  ? "bg-gradient-to-r from-blue-600/90 to-indigo-500/90 text-white shadow-lg shadow-blue-900/30"
-                  : "text-slate-300 hover:bg-white/6 hover:text-white"
+                  ? "bg-[#e8f3df] text-[#17351f]"
+                  : "text-[#d7e4d3] hover:bg-white/10 hover:text-white"
               }`
             }
           >
@@ -61,7 +76,8 @@ function Sidebar() {
 
       <button
         type="button"
-        className="mt-6 rounded-2xl border border-red-400/20 bg-red-500/15 px-4 py-3 text-sm font-semibold text-red-300 transition hover:bg-red-500/25"
+        onClick={handleLogout}
+        className="mt-6 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-semibold text-white transition hover:bg-white/15"
       >
         Logout
       </button>

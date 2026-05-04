@@ -7,32 +7,52 @@ import PatientTypeCard from "../../features/dashboard/PatientTypeCard";
 import Card from "../../component/ui/Card";
 import { getDashboardStats } from "../../features/dashboard/api";
 import { useAxiosPrivate } from "../../hooks/useAxiosPrivate";
+import { searchAppointments } from "../../features/appointments/api";
 
 function AdminDashboardPage() {
+
+  
   const axiosPrivate = useAxiosPrivate();
 
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [recentAppointments, setRecentAppointments] = useState([]);
+
+  
+
+  
 
   useEffect(() => {
-    async function fetchDashboardData() {
-      try {
-        setLoading(true);
-        setError("");
+  async function fetchDashboardData() {
+    try {
+      setLoading(true);
+      setError("");
 
-        const data = await getDashboardStats(axiosPrivate);
-        setDashboardData(data);
-      } catch (err) {
-        console.error("Failed to load dashboard stats:", err);
-        setError("Failed to load dashboard data.");
-      } finally {
-        setLoading(false);
-      }
+      const stats = await getDashboardStats(axiosPrivate);
+      const appointments = await searchAppointments(axiosPrivate, {});
+
+      setDashboardData(stats);
+
+      const latestAppointments = [...appointments]
+        .sort(
+          (a, b) =>
+            new Date(b.appointmentDateTime) -
+            new Date(a.appointmentDateTime)
+        )
+        .slice(0, 5);
+
+      setRecentAppointments(latestAppointments);
+    } catch (err) {
+      console.error("Failed to load dashboard data:", err);
+      setError("Failed to load dashboard data.");
+    } finally {
+      setLoading(false);
     }
+  }
 
-    fetchDashboardData();
-  }, [axiosPrivate]);
+  fetchDashboardData();
+}, [axiosPrivate]);
 
   if (loading) {
     return (
@@ -138,7 +158,7 @@ function AdminDashboardPage() {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-12">
         <div className="xl:col-span-8">
-          <ActivityTableCard />
+          <ActivityTableCard appointments={recentAppointments} />
         </div>
 
         <div className="xl:col-span-4">

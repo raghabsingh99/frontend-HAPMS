@@ -4,31 +4,31 @@ function Topbar() {
   const { user } = useAuth();
 
   return (
-    <header className="flex flex-col gap-4 rounded-[28px] border border-white/10 bg-[#151d35]/90 px-5 py-4 shadow-[0_18px_50px_rgba(0,0,0,0.25)] backdrop-blur-xl lg:flex-row lg:items-center lg:justify-between">
+    <header className="flex flex-col gap-4 rounded-[24px] border border-[#e7e2d6] bg-white px-5 py-4 shadow-[0_10px_28px_rgba(32,44,35,0.07)] lg:flex-row lg:items-center lg:justify-between">
       <div>
-        <h2 className="text-2xl font-semibold tracking-wide text-white">
+        <h2 className="text-2xl font-bold tracking-wide text-[#1f2933]">
           Dashboard
         </h2>
-        <p className="mt-1 text-sm text-slate-400">
-          Welcome back to your hospital management panel
+        <p className="mt-1 text-sm text-[#6b7280]">
+          Welcome back to your healthcare management panel
         </p>
       </div>
 
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center">
-        <div className="flex min-w-[280px] items-center rounded-2xl border border-white/8 bg-white/6 px-4 py-3 text-sm text-slate-400">
+        <div className="flex min-w-[280px] items-center rounded-2xl border border-[#e7e2d6] bg-[#f5f3ec] px-4 py-3 text-sm text-[#6b7280]">
           Search here...
         </div>
 
-        <div className="flex items-center gap-3 rounded-2xl border border-white/8 bg-white/6 px-4 py-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-500/20 text-sm font-bold text-blue-300">
+        <div className="flex items-center gap-3 rounded-2xl border border-[#e7e2d6] bg-[#f5f3ec] px-4 py-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#dfeeda] text-sm font-bold text-[#17351f]">
             {user?.username?.[0]?.toUpperCase() || "U"}
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-white">
+            <p className="text-sm font-bold text-[#1f2933]">
               {user?.username || "Guest"}
             </p>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs font-medium text-[#6b7280]">
               {user?.role || "User"}
             </p>
           </div>

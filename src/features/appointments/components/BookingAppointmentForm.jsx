@@ -17,47 +17,40 @@ function BookAppointmentForm({
   const [doctorId, setDoctorId] = useState("");
   const [selectedSlotId, setSelectedSlotId] = useState("");
 
+  const inputClass =
+    "w-full rounded-2xl border border-[#e7e2d6] bg-[#fbfaf6] px-4 py-3 text-[#1f2933] outline-none transition placeholder:text-[#9ca3af] focus:border-[#2f6b3f]";
+
   async function handleLoadSlots() {
     setSelectedSlotId("");
-    await onLoadSlots(Number(doctorId));
+    await onLoadSlots(doctorId);
   }
 
   async function handleSubmit(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  const selectedSlot = slots.find(
-    (slot) => slot.id === Number(selectedSlotId)
-  );
+    await onBook({
+      patientId: Number(patientId),
+      slotId: Number(selectedSlotId),
+    });
 
-  const payload = {
-    patientId: Number(patientId),
-    doctorId: Number(doctorId),
-    slotId: Number(selectedSlotId),
-    appointmentDateTime: selectedSlot?.startTime,
-  };
-
-  console.log("Form booking payload:", payload);
-
-  await onBook(payload);
-
-  setPatientId("");
-  setDoctorId("");
-  setSelectedSlotId("");
-}
+    setPatientId("");
+    setDoctorId("");
+    setSelectedSlotId("");
+  }
 
   return (
     <div className="space-y-6">
       <Card>
         <div className="mb-5">
-          <h3 className="text-lg font-semibold text-white">Book Appointment</h3>
-          <p className="mt-1 text-sm text-slate-400">
+          <h3 className="text-lg font-bold text-[#1f2933]">Book Appointment</h3>
+          <p className="mt-1 text-sm text-[#6b7280]">
             Select a patient, load doctor slots, and confirm booking
           </p>
         </div>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               Patient ID
             </label>
             <input
@@ -65,13 +58,13 @@ function BookAppointmentForm({
               value={patientId}
               onChange={(e) => setPatientId(e.target.value)}
               placeholder="Enter patient ID"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
               required
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-slate-300">
+            <label className="mb-2 block text-sm font-semibold text-[#374151]">
               Doctor ID
             </label>
             <input
@@ -79,7 +72,7 @@ function BookAppointmentForm({
               value={doctorId}
               onChange={(e) => setDoctorId(e.target.value)}
               placeholder="Enter doctor ID"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+              className={inputClass}
               required
             />
           </div>
@@ -89,7 +82,7 @@ function BookAppointmentForm({
               type="button"
               onClick={handleLoadSlots}
               disabled={!doctorId || loadingSlots}
-              className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-500 px-5 py-3 font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+              className="w-full rounded-2xl bg-[#17351f] px-5 py-3 font-semibold text-white shadow-[0_8px_20px_rgba(23,53,31,0.18)] transition hover:bg-[#224b2c] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loadingSlots ? "Loading Slots..." : "Load Slots"}
             </button>
@@ -99,14 +92,14 @@ function BookAppointmentForm({
 
       <Card>
         <div className="mb-5">
-          <h3 className="text-lg font-semibold text-white">Available Slots</h3>
-          <p className="mt-1 text-sm text-slate-400">
+          <h3 className="text-lg font-bold text-[#1f2933]">Available Slots</h3>
+          <p className="mt-1 text-sm text-[#6b7280]">
             Choose one available slot for the appointment
           </p>
         </div>
 
         {slots.length === 0 ? (
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-[#6b7280]">
             No slots loaded yet. Enter doctor ID and click Load Slots.
           </p>
         ) : (
@@ -120,8 +113,8 @@ function BookAppointmentForm({
                     key={slot.id}
                     className={`cursor-pointer rounded-2xl border p-4 transition ${
                       selected
-                        ? "border-blue-400/60 bg-blue-500/15"
-                        : "border-white/10 bg-white/6 hover:bg-white/10"
+                        ? "border-[#2f6b3f] bg-[#e8f3df]"
+                        : "border-[#e7e2d6] bg-[#fbfaf6] hover:bg-[#f5f3ec]"
                     }`}
                   >
                     <input
@@ -134,16 +127,16 @@ function BookAppointmentForm({
                       required
                     />
 
-                    <p className="text-sm font-semibold text-white">
+                    <p className="text-sm font-bold text-[#1f2933]">
                       Slot #{slot.id}
                     </p>
-                    <p className="mt-2 text-sm text-slate-300">
+                    <p className="mt-2 text-sm text-[#374151]">
                       Start: {formatDateTime(slot.startTime)}
                     </p>
-                    <p className="text-sm text-slate-300">
+                    <p className="text-sm text-[#374151]">
                       End: {formatDateTime(slot.endTime)}
                     </p>
-                    <span className="mt-3 inline-block rounded-full bg-emerald-500/15 px-3 py-1 text-xs font-medium text-emerald-300">
+                    <span className="mt-3 inline-block rounded-full bg-[#e8f3df] px-3 py-1 text-xs font-semibold text-[#2f6b3f]">
                       {slot.status}
                     </span>
                   </label>
@@ -153,8 +146,8 @@ function BookAppointmentForm({
 
             <button
               type="submit"
-              disabled={!patientId || !doctorId || !selectedSlotId || booking}
-              className="rounded-2xl bg-gradient-to-r from-emerald-600 to-blue-500 px-5 py-3 font-semibold text-white shadow-lg shadow-emerald-900/30 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+              disabled={!patientId || !selectedSlotId || booking}
+              className="rounded-2xl bg-[#17351f] px-5 py-3 font-semibold text-white shadow-[0_8px_20px_rgba(23,53,31,0.18)] transition hover:bg-[#224b2c] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {booking ? "Booking..." : "Confirm Booking"}
             </button>

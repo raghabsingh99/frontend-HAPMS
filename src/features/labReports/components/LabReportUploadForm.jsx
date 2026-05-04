@@ -6,6 +6,9 @@ function LabReportUploadForm({ onSubmit, loading }) {
   const [appointmentId, setAppointmentId] = useState("");
   const [file, setFile] = useState(null);
 
+  const inputClass =
+    "w-full rounded-2xl border border-[#e7e2d6] bg-[#fbfaf6] px-4 py-3 text-[#1f2933] outline-none transition placeholder:text-[#9ca3af] focus:border-[#2f6b3f]";
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -24,15 +27,15 @@ function LabReportUploadForm({ onSubmit, loading }) {
   return (
     <Card>
       <div className="mb-5">
-        <h3 className="text-lg font-semibold text-white">Upload Lab Report</h3>
-        <p className="mt-1 text-sm text-slate-400">
+        <h3 className="text-lg font-bold text-[#1f2933]">Upload Lab Report</h3>
+        <p className="mt-1 text-sm text-[#6b7280]">
           Upload a lab report file for a patient
         </p>
       </div>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-4">
         <div>
-          <label className="mb-2 block text-sm font-medium text-slate-300">
+          <label className="mb-2 block text-sm font-semibold text-[#374151]">
             Patient ID
           </label>
           <input
@@ -40,13 +43,13 @@ function LabReportUploadForm({ onSubmit, loading }) {
             value={patientId}
             onChange={(e) => setPatientId(e.target.value)}
             placeholder="Enter patient ID"
-            className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+            className={inputClass}
             required
           />
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-slate-300">
+          <label className="mb-2 block text-sm font-semibold text-[#374151]">
             Appointment ID
           </label>
           <input
@@ -54,18 +57,18 @@ function LabReportUploadForm({ onSubmit, loading }) {
             value={appointmentId}
             onChange={(e) => setAppointmentId(e.target.value)}
             placeholder="Optional"
-            className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-blue-400/60 focus:bg-white/8"
+            className={inputClass}
           />
         </div>
 
         <div>
-          <label className="mb-2 block text-sm font-medium text-slate-300">
+          <label className="mb-2 block text-sm font-semibold text-[#374151]">
             File
           </label>
           <input
             type="file"
             onChange={(e) => setFile(e.target.files[0])}
-            className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-2.5 text-sm text-slate-300 outline-none file:mr-3 file:rounded-xl file:border-0 file:bg-blue-500/20 file:px-3 file:py-2 file:text-blue-300"
+            className="w-full rounded-2xl border border-[#e7e2d6] bg-[#fbfaf6] px-4 py-2.5 text-sm text-[#374151] outline-none file:mr-3 file:rounded-xl file:border-0 file:bg-[#e8f3df] file:px-3 file:py-2 file:font-semibold file:text-[#2f6b3f]"
             required
           />
         </div>
@@ -74,7 +77,7 @@ function LabReportUploadForm({ onSubmit, loading }) {
           <button
             type="submit"
             disabled={loading || !file}
-            className="w-full rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-500 px-5 py-3 font-semibold text-white shadow-lg shadow-blue-900/30 transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
+            className="w-full rounded-2xl bg-[#17351f] px-5 py-3 font-semibold text-white shadow-[0_8px_20px_rgba(23,53,31,0.18)] transition hover:bg-[#224b2c] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {loading ? "Uploading..." : "Upload"}
           </button>

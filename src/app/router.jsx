@@ -15,7 +15,7 @@ import BookAppointmentPage from "../pages/appointments/BookAppointmentPage";
 import LabReportsPage from '../pages/labReports/LabReportsPage';
 import PrescriptionsPage from '../pages/prescriptions/PrescriptionsPage';
 import PatientDetailPage from '../features/patients/PatientDetailPage';
- 
+import ReportsPage from '../pages/labReports/ReportsPage';
 
 function ProtectedRoute({ children }) {
   const { isAuthenticated } = useAuth();
@@ -149,6 +149,14 @@ const router = createBrowserRouter([
       element: (
         <RoleRouter allowedRoles={["ADMIN", "DOCTOR"]}>
           <PatientDetailPage />
+        </RoleRouter>
+      ),
+    },
+    {
+      path: "reports",
+      element: (
+        <RoleRouter allowedRoles={["ADMIN"]}>
+          <ReportsPage />
         </RoleRouter>
       ),
     },

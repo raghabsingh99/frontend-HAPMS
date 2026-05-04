@@ -12,6 +12,8 @@ import {
   addPatientHistory,
 } from "../../features/patients/api";
 
+ 
+
 function PatientDetailPage() {
   const { id } = useParams();
   const axiosPrivate = useAxiosPrivate();
@@ -30,6 +32,9 @@ function PatientDetailPage() {
   const [savingAllergy, setSavingAllergy] = useState(false);
   const [savingHistory, setSavingHistory] = useState(false);
   const [error, setError] = useState("");
+
+  const inputClass =
+    "w-full rounded-2xl border border-[#e7e2d6] bg-[#fbfaf6] px-4 py-3 text-[#1f2933] outline-none transition placeholder:text-[#9ca3af] focus:border-[#2f6b3f]";
 
   async function loadPatientData() {
     try {
@@ -113,7 +118,7 @@ function PatientDetailPage() {
       <div className="space-y-6">
         <PageHeader title="Patient Details" subtitle="Loading patient record..." />
         <Card>
-          <p className="text-slate-300">Loading...</p>
+          <p className="font-medium text-[#374151]">Loading...</p>
         </Card>
       </div>
     );
@@ -128,12 +133,14 @@ function PatientDetailPage() {
 
       {error ? (
         <Card>
-          <p className="text-red-300">{error}</p>
+          <p className="font-medium text-[#dc2626]">{error}</p>
         </Card>
       ) : null}
 
       <Card>
-        <h3 className="mb-4 text-lg font-semibold text-white">Basic Information</h3>
+        <h3 className="mb-4 text-lg font-bold text-[#1f2933]">
+          Basic Information
+        </h3>
 
         <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
           <Info label="Patient ID" value={patient?.id} />
@@ -146,31 +153,31 @@ function PatientDetailPage() {
 
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Card>
-          <h3 className="mb-4 text-lg font-semibold text-white">Allergies</h3>
+          <h3 className="mb-4 text-lg font-bold text-[#1f2933]">Allergies</h3>
 
           <form onSubmit={handleAddAllergy} className="mb-5 flex gap-3">
             <input
               value={allergyName}
               onChange={(e) => setAllergyName(e.target.value)}
               placeholder="Enter allergy name"
-              className="flex-1 rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-blue-400/60"
+              className={inputClass}
             />
             <button
               disabled={savingAllergy}
-              className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-500 px-5 py-3 font-semibold text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#17351f] px-5 py-3 font-semibold text-white shadow-[0_8px_20px_rgba(23,53,31,0.18)] transition hover:bg-[#224b2c] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {savingAllergy ? "Adding..." : "Add"}
             </button>
           </form>
 
           {allergies.length === 0 ? (
-            <p className="text-sm text-slate-400">No allergies found.</p>
+            <p className="text-sm text-[#6b7280]">No allergies found.</p>
           ) : (
             <div className="space-y-2">
               {allergies.map((allergy) => (
                 <div
                   key={allergy.id}
-                  className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3 text-sm text-slate-300"
+                  className="rounded-2xl border border-[#e7e2d6] bg-[#f8f6ef] px-4 py-3 text-sm font-medium text-[#374151]"
                 >
                   {allergy.name}
                 </div>
@@ -180,7 +187,9 @@ function PatientDetailPage() {
         </Card>
 
         <Card>
-          <h3 className="mb-4 text-lg font-semibold text-white">Add Medical History</h3>
+          <h3 className="mb-4 text-lg font-bold text-[#1f2933]">
+            Add Medical History
+          </h3>
 
           <form onSubmit={handleAddHistory} className="space-y-4">
             <input
@@ -189,7 +198,7 @@ function PatientDetailPage() {
               onChange={(e) =>
                 setHistoryForm((prev) => ({ ...prev, entryDate: e.target.value }))
               }
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none focus:border-blue-400/60"
+              className={inputClass}
             />
 
             <input
@@ -198,7 +207,7 @@ function PatientDetailPage() {
                 setHistoryForm((prev) => ({ ...prev, diagnosis: e.target.value }))
               }
               placeholder="Diagnosis"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-blue-400/60"
+              className={inputClass}
               required
             />
 
@@ -209,12 +218,12 @@ function PatientDetailPage() {
               }
               placeholder="Notes"
               rows="3"
-              className="w-full rounded-2xl border border-white/10 bg-white/6 px-4 py-3 text-white outline-none placeholder:text-slate-500 focus:border-blue-400/60"
+              className={inputClass}
             />
 
             <button
               disabled={savingHistory}
-              className="rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-500 px-5 py-3 font-semibold text-white disabled:opacity-60"
+              className="rounded-2xl bg-[#17351f] px-5 py-3 font-semibold text-white shadow-[0_8px_20px_rgba(23,53,31,0.18)] transition hover:bg-[#224b2c] disabled:cursor-not-allowed disabled:opacity-60"
             >
               {savingHistory ? "Saving..." : "Save History"}
             </button>
@@ -223,24 +232,26 @@ function PatientDetailPage() {
       </div>
 
       <Card>
-        <h3 className="mb-4 text-lg font-semibold text-white">Medical History</h3>
+        <h3 className="mb-4 text-lg font-bold text-[#1f2933]">
+          Medical History
+        </h3>
 
         {history.length === 0 ? (
-          <p className="text-sm text-slate-400">No medical history found.</p>
+          <p className="text-sm text-[#6b7280]">No medical history found.</p>
         ) : (
           <div className="space-y-3">
             {history.map((item) => (
               <div
                 key={item.id}
-                className="rounded-2xl border border-white/8 bg-white/5 px-4 py-4"
+                className="rounded-2xl border border-[#e7e2d6] bg-[#f8f6ef] px-4 py-4"
               >
-                <p className="text-sm text-slate-400">
+                <p className="text-sm text-[#6b7280]">
                   Date: {item.entryDate || "-"}
                 </p>
-                <p className="mt-1 font-semibold text-white">
+                <p className="mt-1 font-bold text-[#1f2933]">
                   {item.diagnosis}
                 </p>
-                <p className="mt-2 text-sm text-slate-300">
+                <p className="mt-2 text-sm text-[#374151]">
                   {item.notes || "-"}
                 </p>
               </div>
@@ -254,9 +265,9 @@ function PatientDetailPage() {
 
 function Info({ label, value }) {
   return (
-    <div className="rounded-2xl border border-white/8 bg-white/5 px-4 py-3">
-      <p className="text-xs text-slate-400">{label}</p>
-      <p className="mt-1 text-sm font-semibold text-white">{value ?? "-"}</p>
+    <div className="rounded-2xl border border-[#e7e2d6] bg-[#f8f6ef] px-4 py-3">
+      <p className="text-xs font-medium text-[#6b7280]">{label}</p>
+      <p className="mt-1 text-sm font-bold text-[#1f2933]">{value ?? "-"}</p>
     </div>
   );
 }
